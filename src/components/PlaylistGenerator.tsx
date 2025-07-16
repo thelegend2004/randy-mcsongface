@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { fetchTopTracksByGenre, fetchTrackInfo } from "../api/lastfm";
+import { fetchDeezerPreview } from "../api/deezer";
 
 export function PlaylistGenerator() {
   const [genre, setGenre] = useState("rock");
   const [playlist, setPlaylist] = useState<any[]>([]);
   const [trackInfos, setTrackInfos] = useState<any[]>([]);
+  const [previews, setPreviews] = useState<(string | null)[]>([]);
 
   const handleGeneratePlaylist = async () => {
     const randomPage = Math.floor(Math.random() * 10) + 1;
@@ -12,9 +14,17 @@ export function PlaylistGenerator() {
     const randomizedPlaylist = playlist
       .sort(() => 0.5 - Math.random())
       .slice(0, 10);
-    setPlaylist(randomizedPlaylist);
 
+    setPlaylist(randomizedPlaylist);
     await handleGenerateAlbumInfo(randomizedPlaylist);
+
+    const previewData = await Promise.all(
+      randomizedPlaylist.map((track: any) =>
+        fetchDeezerPreview(track.artist.name, track.name)
+      )
+    );
+
+    setPreviews(previewData);
   };
 
   const handleGenerateAlbumInfo = async (tracks: any[]) => {
@@ -50,10 +60,16 @@ export function PlaylistGenerator() {
             <img
               src={
                 trackInfos[index]?.album?.image.find(
-                  (img) => img.size === "medium"
+                  (img: any) => img.size === "medium"
                 )["#text"]
               }
+              alt="Album cover"
             />
+            {previews[index] && (
+              <audio controls src={previews[index].previewUrl}>
+                Your browser does not support the audio element.
+              </audio>
+            )}
           </li>
         ))}
       </ul>
