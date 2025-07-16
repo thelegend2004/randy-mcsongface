@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { fetchTopTracksByGenre, fetchTrackInfo } from "../api/lastfm";
 import { fetchDeezerPreview } from "../api/deezer";
+import genres from "../data/genres.json";
+import noAlbumCover from "../assets/no-album.svg";
 
 export function PlaylistGenerator() {
   const [genre, setGenre] = useState("rock");
@@ -39,14 +41,11 @@ export function PlaylistGenerator() {
     <div>
       <h2>Select desired genre</h2>
       <select value={genre} onChange={(e) => setGenre(e.target.value)}>
-        <option value="rock">Rock</option>
-        <option value="metal">Metal</option>
-        <option value="rap">Rap</option>
-        <option value="punk">Punk</option>
-        <option value="pop">Pop</option>
-        <option value="doom metal">Doom Metal</option>
-        <option value="jazz">Jazz</option>
-        <option value="citypop">City Pop</option>
+        {genres.map((g: string) => (
+          <option key={g} value={g}>
+            {g.charAt(0).toUpperCase() + g.slice(1)}
+          </option>
+        ))}
       </select>
 
       <button onClick={handleGeneratePlaylist}>Create Playlist</button>
@@ -60,8 +59,8 @@ export function PlaylistGenerator() {
             <img
               src={
                 trackInfos[index]?.album?.image.find(
-                  (img: any) => img.size === "medium"
-                )["#text"]
+                  (img: any) => img.size === "large"
+                )["#text"] || noAlbumCover
               }
               alt="Album cover"
             />

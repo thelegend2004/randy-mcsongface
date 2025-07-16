@@ -1,6 +1,5 @@
 import axios from "axios";
 
-// TODO: Hide api key
 const API_KEY = import.meta.env.VITE_LASTFM_API_KEY;
 const BASE_URL = import.meta.env.VITE_LASTFM_URL;
 
