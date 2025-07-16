@@ -9,5 +9,5 @@
     "jsx": "react-jsx",
     "types": ["vite/client"]
   },
-  "include": ["src", "env.d.ts"]
+  "include": ["src", "env.d.ts", "src/api", "api/deezer-search.js"]
 }

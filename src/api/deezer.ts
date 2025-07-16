@@ -2,9 +2,10 @@ import axios from "axios";
 
 export async function fetchDeezerPreview(artist: string, track: string) {
   const query = `${artist} ${track}`;
-  const res = await axios.get("/deezer/search", {
+
+  const res = await axios.get("/api/deezer-search", {
     params: {
-      q: query,
+      q: `${artist} ${track}`,
     },
   });
 
