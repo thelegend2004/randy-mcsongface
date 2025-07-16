@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { act, useRef, useState } from "react";
 import { fetchTopTracksByGenre, fetchTrackInfo } from "../api/lastfm";
 import { fetchDeezerPreview } from "../api/deezer";
 import genres from "../data/genres.json";
@@ -11,6 +11,17 @@ export function PlaylistGenerator() {
   const [previews, setPreviews] = useState<
     { previewUrl: string | undefined }[]
   >([]);
+  const [activePlaying, setActivePlaying] = useState<number | null>(null);
+  const audioRefs = useRef<(HTMLAudioElement | null)[]>([]);
+
+  const handlePlay = (index: number) => {
+    if (activePlaying !== index && activePlaying !== null) {
+      const prevAudio = audioRefs.current[activePlaying!];
+      prevAudio?.pause();
+      prevAudio?.currentTime && (prevAudio.currentTime = 0);
+    }
+    setActivePlaying(index);
+  };
 
   const handleGeneratePlaylist = async () => {
     const randomPage = Math.floor(Math.random() * 10) + 1;
@@ -88,7 +99,12 @@ export function PlaylistGenerator() {
             {previews[index] && (
               <audio
                 className="w-full mt-4"
+                key={index}
+                ref={(el) => {
+                  audioRefs.current[index] = el;
+                }}
                 controls
+                onPlay={() => handlePlay(index)}
                 src={previews[index].previewUrl}
               >
                 Your browser does not support the audio element.
