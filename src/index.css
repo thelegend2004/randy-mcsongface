@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
-html {
-  background: url("./assets/tile.png");
+body {
+  margin: 0;
+  padding: 16px;
+  height: 100%;
+  background: url("assets/tile_2.png");
+  color: white;
 }

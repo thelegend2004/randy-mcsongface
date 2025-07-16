@@ -38,9 +38,15 @@ export function PlaylistGenerator() {
   };
 
   return (
-    <div>
-      <h2>Select desired genre</h2>
-      <select value={genre} onChange={(e) => setGenre(e.target.value)}>
+    <div className="flex flex-col item-center gap-4">
+      <h2 className="text-2xl font-semibold text-center">
+        Select desired genre
+      </h2>
+      <select
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        value={genre}
+        onChange={(e) => setGenre(e.target.value)}
+      >
         {genres.map((g: string) => (
           <option key={g} value={g}>
             {g.charAt(0).toUpperCase() + g.slice(1)}
@@ -48,7 +54,12 @@ export function PlaylistGenerator() {
         ))}
       </select>
 
-      <button onClick={handleGeneratePlaylist}>Create Playlist</button>
+      <button
+        className="text-black w-full bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:focus:ring-yellow-900"
+        onClick={handleGeneratePlaylist}
+      >
+        Create Playlist
+      </button>
 
       <ul>
         {playlist.map((track, index) => (
