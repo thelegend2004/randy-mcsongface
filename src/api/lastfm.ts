@@ -1,8 +1,8 @@
 import axios from "axios";
 
 // TODO: Hide api key
-const API_KEY = "4fba5580d5a87cc9fdc6f8804555c5d8";
-const BASE_URL = "https://ws.audioscrobbler.com/2.0/";
+const API_KEY = import.meta.env.VITE_LASTFM_API_KEY;
+const BASE_URL = import.meta.env.VITE_LASTFM_URL;
 
 export const fetchTopTracksByGenre = async (genre: string, page: number) => {
   const response = await axios.get(BASE_URL, {

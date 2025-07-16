@@ -45,7 +45,7 @@ export function PlaylistGenerator() {
         {playlist.map((track, index) => (
           <li key={track.url}>
             {track.name} - {track.artist.name} -{" "}
-            {trackInfos[index]?.album?.title || "No data"}
+            {trackInfos[index]?.album?.title || "No data"}{" "}
             {trackInfos[index]?.wiki?.published || "No data"}
             <img
               src={
