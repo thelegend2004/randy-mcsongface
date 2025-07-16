@@ -16,8 +16,8 @@ export default async function handler(req, res) {
     res.setHeader("Access-Control-Allow-Origin", "*"); // optional if needed
     res.setHeader("Content-Type", "application/json");
     res.statusCode = 200;
+
     res.end(JSON.stringify(data));
-    alert("AD");
   } catch (err) {
     res.statusCode = 500;
     res.end(JSON.stringify({ error: "Failed to fetch Deezer data" }));
