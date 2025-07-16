@@ -8,7 +8,9 @@ export function PlaylistGenerator() {
   const [genre, setGenre] = useState("rock");
   const [playlist, setPlaylist] = useState<any[]>([]);
   const [trackInfos, setTrackInfos] = useState<any[]>([]);
-  const [previews, setPreviews] = useState<(string | null)[]>([]);
+  const [previews, setPreviews] = useState<
+    { previewUrl: string | undefined }[]
+  >([]);
 
   const handleGeneratePlaylist = async () => {
     const randomPage = Math.floor(Math.random() * 10) + 1;
@@ -61,13 +63,21 @@ export function PlaylistGenerator() {
         Create Playlist
       </button>
 
-      <ul>
+      <ul className="flex flex-col item-center mx-auto gap-4 max-w-xl min-w-xl w-ful">
         {playlist.map((track, index) => (
-          <li key={track.url}>
-            {track.name} - {track.artist.name} -{" "}
-            {trackInfos[index]?.album?.title || "No data"}{" "}
-            {trackInfos[index]?.wiki?.published || "No data"}
+          <li
+            className="w-full p-4 bg-white rounded-lg shadow-md dark:bg-gray-800"
+            key={track.url}
+          >
+            <p className="mb-2 font-semibold text-center">
+              {track.name} - {track.artist.name}
+            </p>
+            <p className="text-sm text-gray-600 dark:text-gray-300 text-center ">
+              {trackInfos[index]?.album?.title || "No album name"}{" "}
+              {trackInfos[index]?.wiki?.published || "No date available"}
+            </p>
             <img
+              className="mx-auto my-2 rounded-md"
               src={
                 trackInfos[index]?.album?.image.find(
                   (img: any) => img.size === "large"
@@ -76,7 +86,11 @@ export function PlaylistGenerator() {
               alt="Album cover"
             />
             {previews[index] && (
-              <audio controls src={previews[index].previewUrl}>
+              <audio
+                className="w-full mt-4"
+                controls
+                src={previews[index].previewUrl}
+              >
                 Your browser does not support the audio element.
               </audio>
             )}
